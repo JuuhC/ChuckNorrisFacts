@@ -20,7 +20,7 @@ plataforma para
 
 (a) exibir a listagem e 
 
-(b)chamar a tela de pesquisa. 
+(b) chamar a tela de pesquisa. 
 
 Considere a proposta ao lado como um wireframe nesse sentido
 
