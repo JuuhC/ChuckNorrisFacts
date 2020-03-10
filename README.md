@@ -16,9 +16,12 @@ resultados são exibidos na tela principal da
 aplicação
 
 • Utilize a abordagem de UI mais aderente à
-plataforma para 
+plataforma para
+
 (a) exibir a listagem e 
+
 (b)chamar a tela de pesquisa. 
+
 Considere a proposta ao lado como um wireframe nesse sentido
 
 • Cada entrada na lista deve ser acionável, no sentido de
