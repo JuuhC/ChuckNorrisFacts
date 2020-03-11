@@ -34,6 +34,10 @@ class MainViewModel (
             )
     }
 
+    fun onTryAgainRequired() {
+        listFacts()
+    }
+
     fun getRandomFact(){
         disposables += getRandomFactUC.execute()
             .observeOn(uiScheduler)
