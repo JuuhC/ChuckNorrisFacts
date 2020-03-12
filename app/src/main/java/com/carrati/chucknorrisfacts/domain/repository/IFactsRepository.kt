@@ -5,5 +5,5 @@ import io.reactivex.Single
 
 interface IFactsRepository {
     fun listFacts(): Single<List<Fact>>
-    fun getRandomFact(): Single<List<Fact>>
+    fun getRandomFact(): Single<Fact>
 }

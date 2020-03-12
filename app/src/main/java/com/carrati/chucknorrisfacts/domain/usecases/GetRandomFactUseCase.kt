@@ -10,7 +10,7 @@ class GetRandomFactUseCase(
     private val scheduler: Scheduler
 ) {
 
-    fun execute(): Single<List<Fact>> {
+    fun execute(): Single<Fact> {
         return repository.getRandomFact().subscribeOn(scheduler)
     }
 

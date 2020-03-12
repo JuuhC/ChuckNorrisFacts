@@ -13,13 +13,9 @@ class MainViewModel (
     private val uiScheduler: Scheduler
 ): BaseViewModel() {
 
-    val stateListFacts = MutableLiveData<ViewState<List<Fact>>>().apply {
-        value = ViewState.Loading
-    }
+    val stateListFacts = MutableLiveData<ViewState<List<Fact>>>()
 
-    val stateGetRandonFact = MutableLiveData<ViewState<List<Fact>>>().apply {
-        value = ViewState.Loading
-    }
+    val stateGetRandonFact = MutableLiveData<ViewState<Fact>>()
 
     fun listFacts() {
         disposables += listFactsUC.execute()

@@ -2,8 +2,10 @@ package com.carrati.chucknorrisfacts.presentation.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -31,53 +33,58 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        setupRecyclerView()
         setupViewModel()
+        setupRecyclerView()
     }
 
     private fun setupRecyclerView() = with(binding.recyclerView) {
-        layoutManager = LinearLayoutManager(context)
-        adapter = factsAdapter
+        if(adapter == null) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = factsAdapter
+        }
     }
 
     private fun setupViewModel() {
-        viewModel.listFacts()
 
         viewModel.stateListFacts.observe(this, Observer { state ->
             when(state) {
                 is ViewState.Success -> {
-                    factsAdapter.facts = state.data
+                    factsAdapter.facts.clear()
+                    factsAdapter.facts.addAll(state.data.toMutableList())
                     factsAdapter.notifyDataSetChanged()
                     setVisibilities(showList = true)
-                }
-                is ViewState.Loading -> {
-                    setVisibilities(showProgressBar = true)
                 }
                 is ViewState.Failed -> {
                     setVisibilities(showError = true)
                 }
             }
         })
+
+        setVisibilities(showProgressBar = true)
+        viewModel.listFacts()
     }
 
     private fun getRandomFact() {
-        viewModel.getRandomFact()
 
         viewModel.stateGetRandonFact.observe(this, Observer { state ->
             when(state) {
                 is ViewState.Success -> {
-                    factsAdapter.facts = state.data
-                    factsAdapter.notifyDataSetChanged()
+                    if(!factsAdapter.facts.contains(state.data)) {
+                        factsAdapter.facts.add(0, state.data)
+                        factsAdapter.notifyItemInserted(0)
+                        factsAdapter.notifyDataSetChanged()
+                    }
                     setVisibilities(showList = true)
                 }
-                is ViewState.Loading -> {
-                    setVisibilities(showProgressBar = true)
-                }
                 is ViewState.Failed -> {
+                    Toast.makeText(this, "Erro ao carregar card: ${state.throwable}", Toast.LENGTH_SHORT).show()
                     setVisibilities(showError = true)
                 }
             }
         })
+
+        setVisibilities(showProgressBar = true, showList = true)
+        viewModel.getRandomFact()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -100,6 +107,7 @@ class MainActivity : AppCompatActivity() {
             val alertDialog = AlertDialog.Builder(this@MainActivity)
             alertDialog.setTitle("Sobre")
             alertDialog.setMessage("Receba uma piada aleatória sobre Chuck Norris ao clicar na lupa")
+            alertDialog.setPositiveButton("OK") { _, _ -> }
             alertDialog.show()
         }
 
