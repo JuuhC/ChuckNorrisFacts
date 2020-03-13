@@ -2,7 +2,6 @@ package com.carrati.chucknorrisfacts.presentation.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.carrati.chucknorrisfacts.R
 import com.carrati.chucknorrisfacts.databinding.ActivityMainBinding
 import com.carrati.chucknorrisfacts.presentation.adapters.FactsAdapter
+import com.carrati.chucknorrisfacts.presentation.extension.InternetCheck
 import com.carrati.chucknorrisfacts.presentation.extension.visible
 import com.carrati.chucknorrisfacts.presentation.viewmodels.MainViewModel
 import com.carrati.chucknorrisfacts.presentation.viewmodels.ViewState
@@ -73,12 +73,26 @@ class MainActivity : AppCompatActivity() {
                         factsAdapter.facts.add(0, state.data)
                         factsAdapter.notifyItemInserted(0)
                         factsAdapter.notifyDataSetChanged()
+                    } else {
+                        val index = factsAdapter.facts.indexOf(state.data)
+                        factsAdapter.notifyItemMoved(index, 0)
+                        Toast.makeText(this@MainActivity, "Card já existente, movido ao top", Toast.LENGTH_SHORT).show()
                     }
+                    viewModel.stateGetRandonFact.value = null
                     setVisibilities(showList = true)
                 }
                 is ViewState.Failed -> {
-                    Toast.makeText(this, "Erro ao carregar card: ${state.throwable}", Toast.LENGTH_SHORT).show()
-                    setVisibilities(showError = true)
+                    InternetCheck(object : InternetCheck.Consumer {
+                        override fun accept(internet: Boolean) {
+                            if(!internet){
+                                Toast.makeText(this@MainActivity, "Sem conexão, tente novamente mais tarde", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(this@MainActivity, "Erro ao carregar card: ${state.throwable.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+                    viewModel.stateGetRandonFact.value = null
+                    setVisibilities(showList = true)
                 }
             }
         })
