@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Chuck Norris Facts</string>
     <string name="search">Pesquisar</string>
+    <string name="base_url">https://api.chucknorris.io/jokes/</string>
+    <string name="aboutus">Sobre</string>
+    <string name="try_again">Tentar Novamente</string>
 </resources>

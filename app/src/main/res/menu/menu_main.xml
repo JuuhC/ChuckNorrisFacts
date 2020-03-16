@@ -11,4 +11,9 @@
         android:title="@string/search"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_aboutus"
+        android:title="@string/aboutus"
+        app:showAsAction="never" />
+
 </menu>
