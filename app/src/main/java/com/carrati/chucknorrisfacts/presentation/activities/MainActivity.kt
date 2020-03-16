@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.carrati.chucknorrisfacts.R
 import com.carrati.chucknorrisfacts.databinding.ActivityMainBinding
 import com.carrati.chucknorrisfacts.presentation.adapters.FactsAdapter
-import com.carrati.chucknorrisfacts.presentation.extension.InternetCheck
+import com.carrati.chucknorrisfacts.utils.InternetCheck
 import com.carrati.chucknorrisfacts.presentation.extension.visible
 import com.carrati.chucknorrisfacts.presentation.viewmodels.MainViewModel
-import com.carrati.chucknorrisfacts.presentation.viewmodels.ViewState
+import com.carrati.chucknorrisfacts.presentation.extension.ViewState
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -84,10 +84,18 @@ class MainActivity : AppCompatActivity() {
                 is ViewState.Failed -> {
                     InternetCheck(object : InternetCheck.Consumer {
                         override fun accept(internet: Boolean) {
-                            if(!internet){
-                                Toast.makeText(this@MainActivity, "Sem conexão, tente novamente mais tarde", Toast.LENGTH_SHORT).show()
+                            if (!internet) {
+                                AlertDialog.Builder(this@MainActivity)
+                                    .setTitle("Erro")
+                                    .setMessage("Sem conexão, tente novamente mais tarde")
+                                    .setPositiveButton("OK") {_,_ ->}
+                                    .show()
                             } else {
-                                Toast.makeText(this@MainActivity, "Erro ao carregar card: ${state.throwable.message}", Toast.LENGTH_SHORT).show()
+                                AlertDialog.Builder(this@MainActivity)
+                                    .setTitle("Erro")
+                                    .setMessage("Erro ao carregar card: ${state.throwable.message}")
+                                    .setPositiveButton("OK") {_,_ ->}
+                                    .show()
                             }
                         }
                     })

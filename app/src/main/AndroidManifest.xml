@@ -3,6 +3,8 @@
     package="com.carrati.chucknorrisfacts">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <application
         android:name=".MyModuleApplication"
         android:allowBackup="true"

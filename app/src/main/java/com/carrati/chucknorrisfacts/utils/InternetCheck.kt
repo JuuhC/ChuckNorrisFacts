@@ -1,4 +1,4 @@
-package com.carrati.chucknorrisfacts.presentation.extension
+package com.carrati.chucknorrisfacts.utils
 
 import android.os.AsyncTask
 import java.io.IOException

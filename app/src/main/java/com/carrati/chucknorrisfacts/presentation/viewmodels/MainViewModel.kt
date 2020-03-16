@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import com.carrati.chucknorrisfacts.domain.entities.Fact
 import com.carrati.chucknorrisfacts.domain.usecases.GetRandomFactUseCase
 import com.carrati.chucknorrisfacts.domain.usecases.ListFactsUseCase
+import com.carrati.chucknorrisfacts.presentation.extension.StateMachineSingle
+import com.carrati.chucknorrisfacts.presentation.extension.ViewState
 import io.reactivex.Scheduler
 import io.reactivex.rxkotlin.plusAssign
 

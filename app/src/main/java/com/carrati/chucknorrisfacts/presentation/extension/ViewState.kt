@@ -1,4 +1,4 @@
-package com.carrati.chucknorrisfacts.presentation.viewmodels
+package com.carrati.chucknorrisfacts.presentation.extension
 
 import io.reactivex.Single
 import io.reactivex.SingleSource

@@ -1,15 +1,13 @@
 package com.carrati.chucknorrisfacts.presentation.adapters
 
-import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.carrati.chucknorrisfacts.R
 import com.carrati.chucknorrisfacts.domain.entities.Fact
 import com.carrati.chucknorrisfacts.presentation.extension.inflate
+import com.carrati.chucknorrisfacts.utils.CardTextEditor
+import com.carrati.chucknorrisfacts.utils.ShareHandler
 import kotlinx.android.synthetic.main.adapter_main.view.*
 import kotlinx.android.synthetic.main.item_category.view.*
 
@@ -22,8 +20,7 @@ class FactsAdapter(): RecyclerView.Adapter<FactsAdapter.ViewHolder>() {
         fun bind(fact: Fact) = with(itemView) {
 
             tvFact.text = fact.value
-            if(fact.value.length >= 80) tvFact.textSize = 22F
-            else tvFact.textSize = 28F
+            tvFact.textSize = CardTextEditor().getCardTextSize(fact.value)
 
             var text = "uncategorized"
             llCategories.removeAllViews()
@@ -41,14 +38,7 @@ class FactsAdapter(): RecyclerView.Adapter<FactsAdapter.ViewHolder>() {
             }
 
             btShareFact.setOnClickListener {
-                val sendIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    type = "text/plain"
-                    putExtra(Intent.EXTRA_TEXT, "Ei, você sabia?\n\"${fact.value}\"\n${fact.url}")
-                    putExtra(Intent.EXTRA_SUBJECT, "Share a fact")
-                }
-                val shareIntent = Intent.createChooser(sendIntent, "Share using:")
-                context.startActivity(shareIntent)
+                ShareHandler().share(fact, context)
             }
         }
     }
